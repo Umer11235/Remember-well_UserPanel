@@ -1,0 +1,18 @@
+.topNav{
+
+ 
+    width: 1366px;
+height: 57px;
+}
+
+.topNavTitle{
+
+    width: 172px;
+height: 45px;
+flex-shrink: 0;
+}
+.topNavMenu{
+    width: 15px;
+height: 12px;
+flex-shrink: 0;
+}

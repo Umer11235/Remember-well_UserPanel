@@ -93,9 +93,9 @@ const Page = () => {
 
       </> : <>
         <div className="LoginCard1 mb-100">
-          <p className="f-b">Your Unfading Star has</p>
+          <p className="f-b">Your Unfading Heart has</p>
           <p >not been linked yet.</p>
-          <p>Please scan the QR-Code to link your account to the Unfading Star.</p>
+          <p>Please scan the QR-Code to link your account to the Unfading Heart.</p>
           <Button
             title="Connect Now"
             customClass="btn btn-active btn-txt mx-151"
@@ -114,7 +114,7 @@ const Page = () => {
           </div>
           <div className="LoginCard1">
             <p className="f-b">Don't have a</p>
-            <p>Unfading Star yet?</p>
+            <p>Unfading Heart yet?</p>
             <p >Order now and link it to your account to create a memorial page.</p>
 
             <Button

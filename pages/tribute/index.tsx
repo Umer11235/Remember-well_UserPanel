@@ -12,7 +12,6 @@ import Tab from "@/components/tabs";
 import Switch from "react-switch";
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
-import { boolean } from "yup";
 
 const Page = () => {
   const router = useRouter();
@@ -160,10 +159,7 @@ const Page = () => {
                     await handleTribute(formdata).then(x => {
                       if (x && x?.isSuccess == true) {
                         setloading(false);
-                        console.log(formdata);
-                      const isPublic=  formdata.get("isPublic")
-                      isPublic=="true"?router.push("preview?code=" + code)
-                      :router.push("profile?code=" + code);
+                        router.push("profile?code=" + code)
                         // GetAlertMessage("Success", "Profile Updated Successfully", setloading)
 
                       }

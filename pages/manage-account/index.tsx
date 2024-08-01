@@ -13,6 +13,29 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 
 
+
+const ProgressBar = ({ progress }:{progress:any}) => (
+  <div className="progress-circle img-svg">
+    <svg viewBox="0 0 36 36">
+      <path
+        className="circle-bg"
+        d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+      <path
+        className="circle"
+        strokeDasharray={`${progress}, 100`}
+        d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+    </svg>
+    <p>{progress} %</p>
+  </div>
+);
+
+
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,6 +48,9 @@ const Page = () => {
   };
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
+
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [stars, setstars] = React.useState([]);
@@ -63,8 +89,10 @@ const Page = () => {
 
     const file = event.target.files[0];
     if (file) {
-      
+  
+
       setSelectedImage(file)
+
       return true;
     }
   };
@@ -131,6 +159,7 @@ const Page = () => {
 
   return <>
     <TopNav />
+    
     <div className="ManageCard container mb-100">
       <p className="m-0 f-b">Manage</p>
       <p className="m-0">Set up your account and manage your information.</p>
@@ -147,7 +176,7 @@ const Page = () => {
           }}
         />
         <Button
-          title="Unfading Stars"
+          title="Unfading Heart"
           customClass={
             activeSection == "SoulStars"
               ? "btn btn-active btn-txt w-100 mx-1"
@@ -190,6 +219,7 @@ const Page = () => {
 
 
                       await handleManage(formdata).then(x => {
+                        alert("check")
                         if (x && x?.isSuccess == true) {
                           setloading(false);
                           GetAlertMessage("Success", "Profile Updated Successfully", setloading)
@@ -226,8 +256,18 @@ const Page = () => {
 
                             {selectedImage != null || (values.profile != null && values.profile != '') ?
                              <>
-                           {loading? <h5>loading..</h5>: <img alt="" src={selectedImage != null ? URL.createObjectURL(selectedImage) : process.env.NEXT_PUBLIC_BASE_IMAGE_URL + "/" + values?.profile} />}
-                             
+                           {/* {loading?
+                            <h5>loading..</h5>:
+                            
+                            <img alt="" src={selectedImage != null ? URL.createObjectURL(selectedImage) : process.env.NEXT_PUBLIC_BASE_IMAGE_URL + "/" + values?.profile} />}
+                              */}
+                                {uploading ? (
+                                  <ProgressBar progress={uploadProgress} />
+                                ) : (
+                                  <img alt="" src={selectedImage != null ? URL.createObjectURL(selectedImage) : process.env.NEXT_PUBLIC_BASE_IMAGE_URL + "/" + values?.profile} />
+                                )}
+
+
                             </> 
                             :
                              <><p>A</p></>}
@@ -374,7 +414,7 @@ there is add middle name colum and update css like first lst midle name in one r
                                 name={`country`}
                                 value={values.country}
 
-                                placeholder='country'
+                                placeholder='Country'
 
                               />
                               {
@@ -387,6 +427,7 @@ there is add middle name colum and update css like first lst midle name in one r
                             </div>
 
                           </div>
+                          
                           <div className="manageForm w-100 ">
                             <div className="form-group txt-input">
                               <label>Zip/Postal Code</label>
@@ -396,7 +437,7 @@ there is add middle name colum and update css like first lst midle name in one r
                                 name={`zip`}
                                 value={values.zip}
 
-                                placeholder='zip'
+                                placeholder='Zip / Postal Code'
 
                               />
                               {
@@ -442,8 +483,11 @@ there is add middle name colum and update css like first lst midle name in one r
                                 () => {
                                   submitForm();
                                 }
+                              
                               }
+                              
                             />
+                          {loading && <ProgressBar progress={uploadProgress} />}
                           </div>
                         </>
                       </Form>
@@ -512,7 +556,7 @@ there is add middle name colum and update css like first lst midle name in one r
                     })}
 
                   </> : <div className="block">
-                    <p>No Unfading Star</p>
+                    <p >No Unfading Heart</p>
                     <p>created</p>
                   
                   </div>

@@ -1,4 +1,4 @@
-import { addtribute, checkPurchasedOrNot2, get_medias, get_profile, get_start, gettribute, uploadBannerProfileForStar } from "@/API";
+import { addtribute, checkPurchasedOrNot2, get_medias, get_profile, get_start, gettribute, uploadBannerProfileForStar, uploadBannerProfileForStarv2 } from "@/API";
 import ImageCard from "@/components/ImageCard";
 import Button from "@/components/button";
 import Icons from "@/components/customIcons";
@@ -19,7 +19,7 @@ import Txtbox from "@/components/inputs/txtbox";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { AddTributeSchema } from "@/utils/schema";
 
-const Page = () => {
+const Page = ({hide}:{hide:boolean}) => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,7 +33,10 @@ const Page = () => {
   const [media,setmedia]=React.useState([]);
   const [tributes,setTributes]=React.useState<string[]>([]);
   const [tribute, setTribute] = useState<string>('');
+  const [uploadError, setUploadError] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
 
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
 
   React.useEffect(()=>{
@@ -128,6 +131,7 @@ const Page = () => {
   const handleUpload = (type: number,_file:any) => {
     if (code != null) {
       try {
+
         setloading(true);
         (async () => {
           const formdata = new FormData();
@@ -147,9 +151,10 @@ const Page = () => {
 
 
 
-          await uploadBannerProfileForStar(formdata).then(x => {
+          await uploadBannerProfileForStarv2(formdata,setUploadProgress,setUploading,setUploadError).then(x => {
             if (x && x?.isSuccess == true) {
               setloading(false);
+              
               // GetAlertMessage("Success", "Profile Updated Successfully", setloading)
 
             }
@@ -285,6 +290,32 @@ useEffect(() => {
       <div className="ProfileContainer mb-100">
 
 
+
+
+{/* <h1>{uploadProgress}</h1>
+  
+   { uploading && (
+              <div className="progress-circle img-svg">
+                <svg viewBox="0 0 36 36">
+                  <path
+                    className="circle-bg"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className="circle"
+                    strokeDasharray={`${uploadProgress}, 100`}
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <p>{uploadProgress} %</p>
+              </div>
+            )} */}
+
+  
         <div className="profileCard">
 
 
@@ -321,7 +352,28 @@ useEffect(() => {
 
 
               {
-                loading == true ? <></> : <>   <button type="button" className="choose_file">
+                loading == true ? <>
+                  { uploading && (
+              <div className="progress-circle img-svg">
+                <svg viewBox="0 0 36 36">
+                  <path
+                    className="circle-bg"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className="circle"
+                    strokeDasharray={`${uploadProgress}, 100`}
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <p>{uploadProgress} %</p>
+              </div>
+            )}
+                </> : <>   <button type="button" className="choose_file">
                   <span>
                     <Icons icon="pen" />
                   </span>

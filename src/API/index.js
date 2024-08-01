@@ -131,7 +131,38 @@ export const uploadBannerProfileForStar = async (dataPost) => {
   }
 }; 
 
+export const uploadBannerProfileForStarv2 = async (dataPost,setUploadProgress,setUploading,setUploadError) => {
+  try {
+    setUploading(true);
+    const response = await api.post("/star/update-star-profile-banner", dataPost, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 
+        setUploadProgress(progress);
+      }
+    });
+    if(response&&response?.data&&response?.data?.isSuccess==true)
+      {
+        setUploading(false);
+        return response.data;    
+
+      }
+      else
+
+      {
+        setUploading(false);
+      }
+    
+    
+  } catch (error) {
+    setUploading(false);
+    setUploadError(true);
+    throw error;
+  }
+}; 
 export const handleTribute = async (userData) => {
   try {
     const response = await api.post("/star/tribute", userData, {

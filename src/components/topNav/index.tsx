@@ -50,7 +50,7 @@ function TopNav() {
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
                     <Nav.Link href="/manage-account?type=settings">My Account</Nav.Link>
-                    <Nav.Link href="/manage-account?type=stars">Unfading Star</Nav.Link>
+                    <Nav.Link href="/manage-account?type=stars">Unfading Heart</Nav.Link>
                     <Nav.Link href="https://03a1df-fa.myshopify.com/" target="blank">Visit Store</Nav.Link>
                     <Nav.Link href="#action2" onClick={(e) => {
                       e.preventDefault();

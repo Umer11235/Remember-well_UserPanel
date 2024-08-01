@@ -219,7 +219,7 @@ const Page = () => {
 
 
                       await handleManage(formdata).then(x => {
-                        alert("check")
+                       
                         if (x && x?.isSuccess == true) {
                           setloading(false);
                           GetAlertMessage("Success", "Profile Updated Successfully", setloading)
